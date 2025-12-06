@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HealthPlan",
+  "type": "object",
+  "properties": {
+    "planCostShares": {
+      "type": "object",
+      "properties": {
+        "deductible": { "type": "number" },
+        "copay": { "type": "number" },
+        "_org": { "type": "string" },
+        "objectId": { "type": "string" },
+        "objectType": { "type": "string" }
+      },
+      "required": ["deductible", "copay", "objectId", "objectType"]
+    },
+    "linkedPlanServices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "linkedService": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "_org": { "type": "string" },
+              "objectId": { "type": "string" },
+              "objectType": { "type": "string" }
+            },
+            "required": ["name", "objectId", "objectType"]
+          },
+          "planserviceCostShares": {
+            "type": "object",
+            "properties": {
+              "deductible": { "type": "number" },
+              "copay": { "type": "number" },
+              "_org": { "type": "string" },
+              "objectId": { "type": "string" },
+              "objectType": { "type": "string" }
+            },
+            "required": ["deductible", "copay", "objectId", "objectType"]
+          },
+          "_org": { "type": "string" },
+          "objectId": { "type": "string" },
+          "objectType": { "type": "string" }
+        },
+        "required": ["linkedService", "planserviceCostShares", "objectId", "objectType"]
+      }
+    },
+    "_org": { "type": "string" },
+    "objectId": { "type": "string" },
+    "objectType": { "type": "string" },
+    "planType": { "type": "string" },
+    "creationDate": { "type": "string" }
+  },
+  "required": ["planCostShares", "linkedPlanServices", "objectId", "objectType", "planType", "creationDate"],
+  "additionalProperties": true
+}

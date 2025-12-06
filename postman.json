@@ -1,0 +1,141 @@
+{
+  "info": {
+    "_postman_id": "e1a2a1c7-98a0-4a33-9ffe-a91be98a3f00",
+    "name": "Demo3 HealthPlan API (Complete Collection)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Get Token",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/token",
+          "host": ["{{base_url}}"],
+          "path": ["token"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2. Create HealthPlan (POST)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{token}}", "type": "string" }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"planCostShares\": {\n    \"deductible\": 200,\n    \"copay\": 20,\n    \"_org\": \"Example Org\",\n    \"objectId\": \"costshare123\",\n    \"objectType\": \"membercostshare\"\n  },\n  \"linkedPlanServices\": [\n    {\n      \"linkedService\": {\n        \"name\": \"General Consultation\",\n        \"_org\": \"Example Org\",\n        \"objectId\": \"svc123\",\n        \"objectType\": \"service\"\n      },\n      \"planserviceCostShares\": {\n        \"deductible\": 50,\n        \"copay\": 10,\n        \"_org\": \"Example Org\",\n        \"objectId\": \"plancost1\",\n        \"objectType\": \"planservice_membercostshare\"\n      },\n      \"_org\": \"Example Org\",\n      \"objectId\": \"lps123\",\n      \"objectType\": \"planservice\"\n    },\n    {\n      \"linkedService\": {\n        \"name\": \"X-Ray\",\n        \"_org\": \"Example Org\",\n        \"objectId\": \"svc124\",\n        \"objectType\": \"service\"\n      },\n      \"planserviceCostShares\": {\n        \"deductible\": 100,\n        \"copay\": 30,\n        \"_org\": \"Example Org\",\n        \"objectId\": \"plancost2\",\n        \"objectType\": \"planservice_membercostshare\"\n      },\n      \"_org\": \"Example Org\",\n      \"objectId\": \"lps124\",\n      \"objectType\": \"planservice\"\n    }\n  ],\n  \"_org\": \"Example Org\",\n  \"objectId\": \"healthplan123\",\n  \"objectType\": \"healthplan\",\n  \"planType\": \"PPO\",\n  \"creationDate\": \"2025-01-01\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/healthplan",
+          "host": ["{{base_url}}"],
+          "path": ["healthplan"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3. Get HealthPlan (GET)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{token}}", "type": "string" }
+          ]
+        },
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/healthplan/{{plan_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["healthplan", "{{plan_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4. Patch HealthPlan (PATCH + If-Match)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{token}}", "type": "string" }
+          ]
+        },
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "If-Match", "value": "{{version}}", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"planType\": \"HMO\",\n  \"planCostShares\": {\n    \"copay\": 25\n  }\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/healthplan/{{plan_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["healthplan", "{{plan_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "5. Delete HealthPlan (DELETE)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{token}}", "type": "string" }
+          ]
+        },
+        "method": "DELETE",
+        "url": {
+          "raw": "{{base_url}}/healthplan/{{plan_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["healthplan", "{{plan_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "6. Search by Service (Parent-Child Search)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            { "key": "token", "value": "{{token}}", "type": "string" }
+          ]
+        },
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/search/by-service?service_name={{service_name}}",
+          "host": ["{{base_url}}"],
+          "path": ["search", "by-service"],
+          "query": [
+            { "key": "service_name", "value": "{{service_name}}" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "7. Debug Index (optional for demo)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/index/debug",
+          "host": ["{{base_url}}"],
+          "path": ["index", "debug"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
