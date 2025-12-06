@@ -1,0 +1,68 @@
+
+Step 1 — 启动 FastAPI 服务
+在 app.py 所在目录 打开终端 Terminal，然后输入：
+
+uvicorn app:app --reload --port 8000
+---------------
+
+
+
+
+
+模拟 Redis：展示“空 KV store”
+Terminal 命令：
+
+curl http://127.0.0.1:8000/healthplan/healthplan123
+
+————————
+模拟 ElasticSearch：展示所有 index（父 + 子）
+如果你有 /index/debug：
+
+curl http://127.0.0.1:8000/index/debug
+输出示例：
+
+{
+  "parent_index": {"healthplan123": {...}},
+  "child_index": {
+     "general consultation": ["healthplan123"],
+     "x-ray": ["healthplan123"]
+  }
+}
+话
+“这里模拟了 Elasticsearch 的 parent-child 索引。 左边是 parent index，右边是 child index 按 service_name。”
+✔ 满足“Elastic search show all data present in DB”
+————————
+flush all
+  In my Python implementation, I used FastAPI's BackgroundTasks to simulate RabbitMQ's asynchronous task queue.
+Instead of immediately updating the index, the PATCH joins the queue - which exactly as Demo-3 Queueing requires.
+————————
+Python 模拟 ES：
+访问：
+
+GET /index/debug
+（已经生成过这个 endpoint）
+返回：
+
+{
+  "parent_index": { ...所有 healthplans... },
+  "child_index": { ...所有 children ... }
+}
+等价于：
+* ES parent index
+* ES child index
+—————————-
+child = linkedPlanServices 的对象」
+ Python：
+
+GET /search/by-service?service_name=General Consultation
+返回：
+
+hits: [healthplan123]
+这就是 Child relationship 查询 child → parent
+
+ Elastic Search Query — parent relationship
+老师示例： 「给我 parent = linkedPlanServices 的对象」
+用：
+
+index_store
+
